@@ -24,7 +24,10 @@ class Plugin extends PluginBase
   }
 
   public function registerComponents(){
-    return [];
+    return [
+      'GreenImp\Wishlist\Components\Wishlist'     => 'wishlist',
+      'GreenImp\Wishlist\Components\WishlistAdd'  => 'wishlistAdd'
+    ];
   }
 
   public function registerPermissions(){}

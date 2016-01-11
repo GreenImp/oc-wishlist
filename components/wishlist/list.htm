@@ -1,0 +1,18 @@
+{% if __SELF__.itemCount > 0 %}
+  {% for item in __SELF__.items() %}
+  <li class="list-group-item">
+    <form
+      data-request="{{ __SELF__ }}::onRemoveItem"
+      data-request-update="'{{ __SELF__ }}::list': '#wishlist-list'"
+    >
+      <input type="hidden" name="item" value="{{ loop.index0 }}">
+
+      {{ item.title }}
+
+      <button type="submit" class="close pull-right" aria-hidden="true">&times;</button>
+    </form>
+  </li>
+  {% endfor %}
+{% else %}
+  <li>{{ 'No items'|_ }}</li>
+{% endif %}
