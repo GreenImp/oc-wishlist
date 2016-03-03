@@ -35,4 +35,12 @@ class Plugin extends PluginBase
   public function registerNavigation(){
     return [];
   }
+
+  public function registerMarkupTags(){
+    return [
+      'functions' => [
+        'class' => 'get_class'
+      ]
+    ];
+  }
 }

@@ -1,1 +1,4 @@
-{%  partial 'wishlist::button/add' %}
+<div data-wishlist-item-form>
+  {% partial 'wishlist::button/add' ref=ref %}
+  {% partial 'wishlist::button/remove' ref=ref %}
+</div>

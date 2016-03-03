@@ -3,3 +3,13 @@
 <ul class="list-group" id="wishlist-list">
   {%  partial 'wishlist::list' %}
 </ul>
+
+{% put scripts %}
+<script>
+  (function(){
+    wishlist.items = {{ __SELF__.itemsRaw()|json_encode()|raw }};
+
+    wishlist.updateButtons();
+  }());
+</script>
+{% endput %}

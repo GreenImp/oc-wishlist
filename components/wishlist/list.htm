@@ -4,10 +4,15 @@
     <form
       data-request="{{ __SELF__ }}::onRemoveItem"
       data-request-update="'{{ __SELF__ }}::list': '#wishlist-list'"
+      data-request-success="wishlist.updateButtons('{{ item.type|e('js') }}:{{ item.id }}', false)"
     >
-      <input type="hidden" name="item" value="{{ loop.index0 }}">
+      <input type="hidden" name="item" value="{{ item.type }}:{{ item.id }}">
 
-      {{ item.title }}
+      {% if item.url %}
+        <a href="{{ item.url }}">{{ item.title }}</a>
+      {% else %}
+        {{ item.title }}
+      {% endif %}
 
       <button type="submit" class="close pull-right" aria-hidden="true">&times;</button>
     </form>
