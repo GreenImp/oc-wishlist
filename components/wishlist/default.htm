@@ -1,8 +1,12 @@
 <h3 class="panel-title">{{ 'Wishlist'|_ }}</h3>
 
-<ul class="list-group" id="wishlist-list">
+<ul class="list-group no-bullet" id="wishlist-list">
   {%  partial 'wishlist::list' %}
 </ul>
+
+<div class="text-right">
+  <a href="#">{{ 'Send Enquiry' }} &gt;</a>
+</div>
 
 {% put scripts %}
 <script>
