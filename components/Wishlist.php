@@ -40,20 +40,20 @@ class Wishlist extends ComponentBase
   }
 
   public function onRun(){
-    $test_item = new \stdClass();
-    $test_item->title = 'A product';
-    $test_item->id = 789;
+    $this->addJs('assets/js/wishlist.js');
+  }
 
-    $this->page['test_item']  = $test_item;
+  public function itemsRaw(){
+    return $this->wishlist->getItems();
   }
 
   /**
    * Returns a list of the current wishlist items
    *
-   * @return Array
+   * @return array
    */
   public function items(){
-    return $this->wishlist->getItems();
+    return $this->wishlist->getItemObjects();
   }
 
   public function itemCount(){
@@ -72,13 +72,10 @@ class Wishlist extends ComponentBase
 
   public function onAddItem()
   {
-    $item = $this->wishlist->unserialize(post('item'));
+    $item = post('item');
 
     if(!empty($item)){
       $this->wishlist->addItem($item);
-    }else{
-      // error unserializing the item data
-      // TODO - throw error
     }
   }
 

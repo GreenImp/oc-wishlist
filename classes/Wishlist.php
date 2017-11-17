@@ -39,10 +39,39 @@ class Wishlist{
   /**
    * Returns a list of the current wishlist items
    *
-   * @return Array
+   * @return array
    */
   public function getItems(){
     return Session::get('wishlist.' . $this->reference . '.items', []);
+  }
+
+  public function getItemObjects(){
+    $items = $this->getItems();
+
+    // loop through and load the objects
+    foreach($items as &$item){
+      if(!is_array($item)){
+        list($type, $id) = explode(':', $item);
+
+        // build the item
+        $item = [
+          'type' => $type,
+          'id'   => $id
+        ];
+      }else{
+        $type = $item['type'];
+      }
+
+      // get the item's model
+      $model = class_exists($type) ? $type::find($item['id']) : null;
+
+      if(!is_null($model)){
+        $item['title']  = isset($model->title) ? $model->title : (isset($model->name) ? $model->name : 'N/A');
+        $item['url']    = method_exists($model, 'url') ? $model->url() : (isset($model->url) ? $model->url : '#');
+      }
+    }
+
+    return $items;
   }
 
   /**
@@ -51,7 +80,7 @@ class Wishlist{
    * @param array $items
    * @throws ApplicationException
    */
-  public function setItems(Array $items){
+  public function setItems(array $items){
     if($this->canFitItems($items)){
       // loop through and add the new items to the list
       $itemList = [];
@@ -103,7 +132,10 @@ class Wishlist{
     if(!is_null($key)){
       $items  = $this->getItems();
 
-      unset($items[$key]);
+      $key = array_search($key, $items);
+      if(false !== $key){
+        unset($items[$key]);
+      }
 
       $this->setItems($items);
     }
@@ -118,6 +150,13 @@ class Wishlist{
     foreach($keys as $key){
       $this->removeItem($key);
     }
+  }
+
+  /**
+   * Empties the wishlist
+   */
+  public function emptyList(){
+    Session::put('wishlist.' . $this->reference . '.items', []);
   }
 
   /**

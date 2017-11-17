@@ -1,5 +1,65 @@
-<h3 class="panel-title">{{ 'Wishlist'|_ }}</h3>
+<h3 class="panel-title">{{ 'My List'|_ }}</h3>
 
-<ul class="list-group" id="wishlist-list">
+<ul class="list-group no-bullet" id="wishlist-list">
   {%  partial 'wishlist::list' %}
 </ul>
+
+<div class="text-right">
+  <a href="{{ 'contact'|page }}?wishlist=1#contact-form">{{ 'Send Enquiry' }} &gt;</a>
+</div>
+
+{% put scripts %}
+<script>
+  (function(){
+    /**
+     * Read a page's GET URL variables and return them as an associative array.
+     * @link http://stackoverflow.com/a/4656873
+     * @returns {Array}
+     */
+    function getUrlVars(){
+      var vars = [], hash;
+      var hashes = window.location.search ? window.location.search.slice(window.location.search.indexOf('?') + 1).split('&') : null;
+
+      if(hashes){
+        for(var i = 0; i < hashes.length; i++){
+          hash = hashes[i].split('=');
+          vars.push(hash[0]);
+          vars[hash[0]] = hash[1];
+        }
+      }
+
+      return vars;
+    }
+
+
+    // store the current wishlist items
+    wishlist.items = {{ __SELF__.itemsRaw()|json_encode()|raw }};
+
+    // update any wishlist buttons on the page
+    wishlist.updateButtons();
+
+
+    var $contactForm = $('form#contact-form :input[name="message"]');
+
+    if(wishlist.items && $contactForm.length && getUrlVars()['wishlist']){
+      var value = '';
+
+      $.each(wishlist.items, function(i, item){
+        var label = $('#wishlist-list')
+          .find('form :input[name="item"]')
+          .filter(function(i, elm){
+            return $(elm).val() == item;
+          })
+          .closest('form')
+          .find('a').text();
+
+        if(label) {
+          value += label + '; ';
+        }
+      });
+
+      $contactForm.val(value);
+    }
+  }());
+</script>
+{% endput %}

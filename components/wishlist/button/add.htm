@@ -1,9 +1,12 @@
 <form
   data-request="wishlist::onAddItem"
   data-request-update="'wishlist::list': '#wishlist-list'"
-  data-request-success=""
+  data-request-success="wishlist.updateButtons('{{ ref|e('js') }}', true)"
   >
-  <input type="hidden" name="items[]" value="product_id_01">
+  <input type="hidden" name="item" value="{{ ref }}">
 
-  <button>Add to wishlist</button>
+  <button type="submit" class="dark small tiny-spacing no-space-below">
+    {{ 'Add to My List'|_ }}
+    <i class="fa fa-plus fa-lg gutter-left"></i>
+  </button>
 </form>

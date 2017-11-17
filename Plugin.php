@@ -25,8 +25,7 @@ class Plugin extends PluginBase
 
   public function registerComponents(){
     return [
-      'GreenImp\Wishlist\Components\Wishlist'     => 'wishlist',
-      'GreenImp\Wishlist\Components\WishlistAdd'  => 'wishlistAdd'
+      'GreenImp\Wishlist\Components\Wishlist' => 'wishlist'
     ];
   }
 
@@ -34,5 +33,13 @@ class Plugin extends PluginBase
 
   public function registerNavigation(){
     return [];
+  }
+
+  public function registerMarkupTags(){
+    return [
+      'functions' => [
+        'class' => 'get_class'
+      ]
+    ];
   }
 }

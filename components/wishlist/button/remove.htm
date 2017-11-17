@@ -1,9 +1,12 @@
 <form
   data-request="wishlist::onRemoveItem"
   data-request-update="'wishlist::list': '#wishlist-list'"
-  data-request-success=""
+  data-request-success="wishlist.updateButtons('{{ ref|e('js') }}', false)"
   >
-  <input type="hidden" name="item" value="product_id_01">
+  <input type="hidden" name="item" value="{{ ref }}">
 
-  <button>Remove wishlist</button>
+  <button type="submit" class="dark small tiny-spacing no-space-below">
+    {{ 'Remove from My List'|_ }}
+    <i class="fa fa-minus fa-lg gutter-left"></i>
+  </button>
 </form>
